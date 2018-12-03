@@ -71,4 +71,26 @@ router.post("/register",(req,res) =>{
         })
 })
 
+// 登录模块
+router.post("/login",(req,res) =>{
+    const email = req.body.email;
+    const password = req.body.password;
+
+    //查询数据
+    User.findOne({email})
+        .then(user =>{
+            if(!user){
+                return res.status(404).json({email:"用户不存在"})
+            }
+            // console.log("用户存在")
+            var isMathch = bcrypt.compareSync(password,user.password);
+            
+            if(isMathch){
+                res.json({msg:"success"});
+            }else{
+                  return res.status(400).json({password:"密码错误"});
+                }
+            })
+})
+
 module.exports = router
