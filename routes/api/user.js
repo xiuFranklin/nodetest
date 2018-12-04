@@ -8,7 +8,11 @@ const bcrypt = require("bcrypt-nodejs");
 //使用全球头像
 const gravatar = require('gravatar');
 
+//jwt
+const jwt = require('jsonwebtoken');
+
 const User = require("../../models/User");
+const keys = require("../../config/keys");
 
 // $route GET api/users/test
 
@@ -86,7 +90,16 @@ router.post("/login",(req,res) =>{
             var isMathch = bcrypt.compareSync(password,user.password);
             
             if(isMathch){
-                res.json({msg:"success"});
+                const rule = {id:user.id,name:user.name}
+                //1.规则；2.加密名字；3.过期时间；4.表达式
+                jwt.sign(rule,keys.secretOrKey,{expiresIn:3600},function(err,token) {
+                    if(err) throw err
+                    res.json({
+                        success:true,
+                        token:"eeexiu"+token
+                    });
+                })
+                // res.json({msg:"success"});
             }else{
                   return res.status(400).json({password:"密码错误"});
                 }
