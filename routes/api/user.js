@@ -14,6 +14,9 @@ const jwt = require('jsonwebtoken');
 const User = require("../../models/User");
 const keys = require("../../config/keys");
 
+//passport
+const passport = require("passport");
+
 // $route GET api/users/test
 
 // @desc 返回的请求json数据、
@@ -96,7 +99,7 @@ router.post("/login",(req,res) =>{
                     if(err) throw err
                     res.json({
                         success:true,
-                        token:"eeexiu"+token
+                        token:"Bearer "+token
                     });
                 })
                 // res.json({msg:"success"});
@@ -104,6 +107,17 @@ router.post("/login",(req,res) =>{
                   return res.status(400).json({password:"密码错误"});
                 }
             })
+})
+
+//token验证
+// 登录模块
+router.get("/current",passport.authenticate("jwt",{session:false}),(req,res) =>{
+
+    res.json({
+        id:req.user.id,
+        name:req.user.name,
+        email:req.user.email
+    })
 })
 
 module.exports = router
