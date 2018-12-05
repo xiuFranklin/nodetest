@@ -18,6 +18,11 @@ const UseSchema = new Schema({
         type:String
     },
 
+    identity:{
+        type:String,
+        require:true
+    },
+
     date:{
         type:Date,
         default:Date.now

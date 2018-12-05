@@ -34,7 +34,7 @@ router.post("/register",(req,res) =>{
     User.findOne({email: req.body.email})
         .then((user) => {
             if(user){
-                return res.status(400).json({email:"邮箱已经被注册 ！"})
+                return res.status(400).json("邮箱已经被注册 ！")
             }else{
 
                 //TODO 该代码目前返回不通 mm表示一个空的头像
@@ -45,7 +45,8 @@ router.post("/register",(req,res) =>{
                     email:req.body.email,
                     // 同名，如果是es6则可以省略
                     avatar,
-                    password:req.body.password
+                    password:req.body.password,
+                    identity:req.body.identity
                 })
 
                 // bcrypt.genSalt(10, function(err, salt) {
@@ -87,13 +88,13 @@ router.post("/login",(req,res) =>{
     User.findOne({email})
         .then(user =>{
             if(!user){
-                return res.status(404).json({email:"用户不存在"})
+                return res.status(404).json("用户不存在")
             }
             // console.log("用户存在")
             var isMathch = bcrypt.compareSync(password,user.password);
             
             if(isMathch){
-                const rule = {id:user.id,name:user.name}
+                const rule = {id:user.id,name:user.name,avatar:user.avatar,identity:user.identity}
                 //1.规则；2.加密名字；3.过期时间；4.表达式
                 jwt.sign(rule,keys.secretOrKey,{expiresIn:3600},function(err,token) {
                     if(err) throw err
@@ -104,7 +105,7 @@ router.post("/login",(req,res) =>{
                 })
                 // res.json({msg:"success"});
             }else{
-                  return res.status(400).json({password:"密码错误"});
+                  return res.status(400).json("密码错误");
                 }
             })
 })
@@ -116,7 +117,8 @@ router.get("/current",passport.authenticate("jwt",{session:false}),(req,res) =>{
     res.json({
         id:req.user.id,
         name:req.user.name,
-        email:req.user.email
+        email:req.user.email,
+        identity:req.user.identity
     })
 })
 
