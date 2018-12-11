@@ -18,7 +18,7 @@
                     </el-form-item>
 
                     <el-form-item label="确认密码" prop="password2">
-                    <el-input type="password" v-model="registerUser.password" placeholder="请确认密码"></el-input>
+                    <el-input type="password" v-model="registerUser.password2" placeholder="请确认密码"></el-input>
                     </el-form-item>
 
                     <el-form-item label="选择身份" >
@@ -47,6 +47,16 @@ export default {
     name: 'register',
     components:{},
     data(){
+
+        var validatePass2 = (rule, value, callback) => {
+        if (value !== this.registerUser.password) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+
+
         return {
             registerUser: {
                 name:'',
@@ -54,7 +64,44 @@ export default {
                 password:'',
                 password2:'',
                 identity:''
+            },
+
+            rules: {
+                name: [
+                    {require:true,message:"用户名不能为空",trigger:"change"},
+                    {min:2,max:30,message:"长度在2到30个字符",trigger:"blur"}
+                ],
+
+                email: [
+                    {type:"email", require:true,message:"邮箱格式不正确",trigger:"blur"}
+                ],
+
+                password: [
+                    {require:true,message:"密码不能为空",trigger:"blur"},
+                    {min:6,max:30,message:"长度在6到30个字符",trigger:"blur"}
+                ],
+
+                password2: [
+                    {require:true,message:"确认密码不能为空",trigger:"blur"},
+                    {min:6,max:30,message:"长度在6到30个字符",trigger:"blur"},
+                    { validator: validatePass2, trigger: 'blur' }
+                ],
             }
+            
+        }
+    },
+
+    // 跟data同级
+    methods: {
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    alert('submit!');
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
         }
     }
 };
