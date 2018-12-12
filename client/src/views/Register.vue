@@ -96,7 +96,17 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+                    this.$axios.post("/api/users/register",this.registerUser).then(res => {
+                            //注册成功
+                            console.log("到此注册");
+                            this.$message({
+                            message:"注册成功",
+                            type:"success"
+                            });
+                            
+                            this.$router.push("/login")
+                        });
+                     
                 } else {
                     console.log('error submit!!');
                     return false;
