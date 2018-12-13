@@ -24,7 +24,7 @@ function endLoading() {    //使用Element loading-close 方法
 axios.interceptors.request.use(config => {
     //加载
     startLoading()
-    console.log("得到请求")
+    // console.log("得到请求")
     if(localStorage.eleToken)
         config.headers.Authorization = localStorage.eleToken
     return config
