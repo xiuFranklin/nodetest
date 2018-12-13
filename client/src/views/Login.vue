@@ -1,10 +1,10 @@
 <template>
-    <div class="register">
+    <div class="login">
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title">eeexiu后台管理系统</span>
 
-                <el-form :model="loginUser" status-icon :rules="rules" ref="loginForm" label-width="80px" class="loginForm">
+                <el-form :model="loginUser" status-icon :rules="rules" ref="loginForm" label-width="60px" class="loginForm">
                     <el-form-item label="邮箱" prop="email">
                     <el-input v-model="loginUser.email" placeholder="请输入邮箱"></el-input>
                     </el-form-item>
