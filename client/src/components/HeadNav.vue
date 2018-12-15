@@ -8,17 +8,27 @@
 
              <el-col :span="6" class='user'>
                 <div class="userinfo">
-                    <img src="https://www.gravatar.com/avatar/anything?s=200&d=mm" class="avatar" alt="">
+                    <img :src="user.avatar" class="avatar" alt="">
                     <div class='welcome'>
                         <p class="name comename">欢迎</p>
-                        <p class="name avatarname">eeexiu</p>
+                        <p class="name avatarname">{{user.name}}</p>
                     </div> 
 
                     <span class='username'>
                         <!-- 下拉箭头 -->
+                         <el-dropdown
+                                trigger="click"
+                                @command='setDialogInfo'>
+                            <span class="el-dropdown-link">
+                                <i class="el-icon-caret-bottom el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command='info'>个人信息</el-dropdown-item>
+                                <el-dropdown-item  command='logout'>退出</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     </span>            
                 </div>
-                <span class='title'>米修在线后台管理系统</span>
             </el-col>
 
         </el-row>
@@ -27,8 +37,46 @@
 
 <script>
 export default {
-    name:'head-nav'
-}
+    name:'head-nav',
+    computed: {
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+
+  methods: {
+      setDialogInfo(cmditem) {
+          if (!cmditem) {
+        console.log("test");
+        this.$message("菜单选项缺少command属性");
+        return;
+      }
+      switch (cmditem) {
+        case "info":
+          this.showInfoList();
+          break;
+        case "logout":
+          this.logout();
+          break;
+       }
+      },
+
+      showInfoList() {
+      // 个人信息
+      console.log("显示个人信息")
+    },
+
+    logout() {
+      // 清除token
+      localStorage.removeItem("eleToken");
+      this.$store.dispatch("clearCurrentState");
+
+      // 页面跳转
+      this.$router.push("/login");
+    }
+
+  }
+};
 </script>
 
 
