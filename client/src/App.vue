@@ -16,7 +16,7 @@ export default {
       this.$store.dispatch("setIsAutnenticated", !this.isEmpty(decode));
       this.$store.dispatch("setUser", decode);
     }
-  },
+  } ,
 
     // 跟data同级
     methods: {
