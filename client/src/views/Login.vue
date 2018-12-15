@@ -29,6 +29,9 @@
 </template>
 
 <script>
+
+import jwt_decode from "jwt-decode";
+
 export default {
     name: 'login',
     components:{},
@@ -64,14 +67,25 @@ export default {
                            const {token} = res.data;
                            localStorage.setItem("eleToken",token);
 
-                           this.$router.push("/index")
+                            // 解析token
+                            const decode = jwt_decode(token);
+                            // console.log(decode)
+                            // 存储数据
+                            this.$store.dispatch("setIsAutnenticated", !this.isEmpty(decode));
+                            this.$store.dispatch("setUser", decode);
+                           this.$router.push("/index");
                         });
                      
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
+                } 
             });
+        },
+        isEmpty(value) {
+            return (
+                value === undefined ||
+                value === null ||
+                (typeof value === "object" && Object.keys(value).length === 0) ||
+                (typeof value === "string" && value.trim().length === 0)
+            );
         }
     }
 };
