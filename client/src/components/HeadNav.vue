@@ -63,7 +63,8 @@ export default {
 
       showInfoList() {
       // 个人信息
-      console.log("显示个人信息")
+      // console.log("显示个人信息")
+      this.$router.push("/infoshow")
     },
 
     logout() {
