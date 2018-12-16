@@ -1,5 +1,6 @@
 <template>
     <div class="index">
+        <LeftMenu></LeftMenu>
         <HeadNav></HeadNav>
         <router-view></router-view>
     </div>
@@ -7,10 +8,12 @@
 
 <script>
 import HeadNav from '../components/HeadNav';
+import LeftMenu from "../components/LeftMenu";
 export default {
     name: 'index',
     components:{
-        HeadNav
+        HeadNav,
+        LeftMenu
     }
 };
 </script>
