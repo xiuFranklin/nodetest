@@ -1,6 +1,16 @@
 <template>
 <div class="fillcontain">
-    <el-table
+
+    <div>
+        <el-form :inline="true" ref="add_data">
+            <el-form-item class="btnRight">
+                    <el-button type="primary" size ="small" icon="view" @click='handlAdd()'>添加</el-button>
+            </el-form-item>
+        </el-form> 
+    </div>
+    <div class="table_container">
+
+         <el-table
                 v-if="tableData.length > 0"
                 :data='tableData'
                 max-height="450"
@@ -97,15 +107,25 @@
             </el-table-column>
 
     </el-table>
+    </div>
+    <!-- 传递dialog值 -->
+   <Dialog :dialog='dialog' ></Dialog>
 </div>
 </template>
 
 <script>
+
+import Dialog from "../components/Dialog";
+
 export default {
     name: "fundlist",
     data() {
     return {
-      tableData: []
+      tableData: [],
+      //传递dialog属性对象
+      dialog:{
+        show:false
+      }
      }
     },
     created() {
@@ -125,6 +145,13 @@ export default {
 
        onDeleteMoney(index,row) {
            console.log("删除流水")
+       },
+       handlAdd(){
+          this.dialog.show = true
+       },
+       //注册组件
+       components:{
+           Dialog
        }
   }
 }
@@ -137,6 +164,10 @@ export default {
   height: 100%;
   padding: 16px;
   box-sizing: border-box;
+}
+
+.btnRight {
+  float: right;
 }
 
 </style>
