@@ -109,7 +109,7 @@
     </el-table>
     </div>
     <!-- 传递dialog值 -->
-   <Dialog :dialog='dialog' ></Dialog>
+    <Dialog :dialog='dialog'></Dialog>
 </div>
 </template>
 
@@ -126,7 +126,7 @@ export default {
       dialog:{
         show:false
       }
-     }
+     };
     },
     created() {
     this.getProfile();
@@ -148,13 +148,14 @@ export default {
        },
        handlAdd(){
           this.dialog.show = true
-       },
-       //注册组件
-       components:{
-           Dialog
        }
-  }
-}
+  },
+
+  //注册组件
+    components:{
+        Dialog
+    }
+};
 </script>
 
 
